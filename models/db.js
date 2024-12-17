@@ -4,7 +4,7 @@ require("dotenv").config(); // Load environment variables from .env file
 const db = mysql.createConnection({
   host: process.env.DB_HOST || "localhost",          // Database host
   user: process.env.DB_USER || "root",              // Database username
-  password: process.env.DB_PASSWORD || "password",  // Database password
+  password: process.env.DB_PASSWORD || "Kavi2005@",  // Database password
   database: process.env.DB_NAME || "employee_management", // Database name
   port: process.env.DB_PORT || 3306                 // Default MySQL port
 });
