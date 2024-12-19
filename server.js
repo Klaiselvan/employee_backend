@@ -1,13 +1,28 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const db = require("./models/db"); // Import MySQL database connection
 const employeeRoutes = require("./routes/employeeRoutes");
 
 const app = express();
 
 // Middleware
-app.use(cors({ origin: "https://employee-management-frontend-lyart.vercel.app/" }));
-app.use(bodyParser.json()); // Parse incoming JSON requests
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Allow requests from the local frontend
+  })
+);
+app.use(express.json()); // Parse JSON requests
+
+// Test route to verify database connection
+app.get("/api/test-db", (req, res) => {
+  db.query("SELECT 1", (err, results) => {
+    if (err) {
+      console.error("Database test query failed:", err.message);
+      return res.status(500).json({ error: "Database connection failed" });
+    }
+    res.json({ message: "Database connected successfully!", results });
+  });
+});
 
 // Employee routes
 app.use("/api/employees", employeeRoutes);
@@ -24,7 +39,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

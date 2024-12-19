@@ -1,20 +1,26 @@
-const mysql = require("mysql2");
-require("dotenv").config(); // Load environment variables from .env file
+const { createClient } = require('@supabase/supabase-js'); // Import the Supabase client
+require('dotenv').config(); // Load environment variables from .env file
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",          // Database host
-  user: process.env.DB_USER || "root",              // Database username
-  password: process.env.DB_PASSWORD || "Kavi2005@",  // Database password
-  database: process.env.DB_NAME || "employee_management", // Database name
-  port: process.env.DB_PORT || 3306                 // Default MySQL port
-});
+// Initialize the Supabase client
+const supabase = createClient(
+  process.env.SUPABASE_URL, // The URL for your Supabase project
+  process.env.SUPABASE_KEY  // The anon or service role key from Supabase
+);
 
-db.connect((err) => {
-  if (err) {
-    console.error("Error connecting to the database:", err.message);
-    return;
+// Check if the connection works by making a test query
+const testConnection = async () => {
+  try {
+    const { data, error } = await supabase.from('employees').select('*'); // Replace 'employees' with your table name
+    if (error) {
+      console.error('Error connecting to Supabase:', error.message);
+      return;
+    }
+    console.log('Connected to Supabase successfully!', data);
+  } catch (err) {
+    console.error('Error during connection test:', err.message);
   }
-  console.log("Connected to the MySQL database successfully!");
-});
+};
 
-module.exports = db;
+testConnection(); // Test the connection to Supabase
+
+module.exports = supabase; // Export the Supabase client
