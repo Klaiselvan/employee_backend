@@ -13,9 +13,12 @@ const allowedOrigin = process.env.NODE_ENV === "production"
 // Middleware
 app.use(
   cors({
-    origin: allowedOrigin, // Dynamically set the allowed origin
+    origin: allowedOrigin,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"], // Add other necessary headers
   })
 );
+
 app.use(express.json()); // Parse JSON requests
 
 // Test route to verify database connection
