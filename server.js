@@ -8,7 +8,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow requests from the local frontend
+    origin: "*", // Allow requests from the local frontend
   })
 );
 app.use(express.json()); // Parse JSON requests

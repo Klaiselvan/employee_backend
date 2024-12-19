@@ -56,25 +56,27 @@ router.post("/add", async (req, res) => {
     }
 
     // Insert new employee
-    const { data, error: insertError } = await supabase
-      .from("employees")
-      .insert([
-        {
-          employee_id,
-          first_name,
-          last_name,
-          email,
-          phone_number,
-          department,
-          date_of_joining,
-          role,
-        },
-      ]);
+    // Insert new employee
+const { data, error: insertError } = await supabase
+.from("employees")
+.insert([
+  {
+    employee_id,
+    first_name,
+    last_name,
+    email,
+    phone_number,
+    department,
+    date_of_joining,
+    role,
+  },
+]);
 
-    if (insertError) {
-      console.error("Error inserting employee:", insertError.message);
-      return res.status(500).json({ error: "Failed to add employee" });
-    }
+if (insertError) {
+console.error("Error inserting employee:", insertError.message);
+console.error("Full error details:", insertError);
+return res.status(500).json({ error: "Failed to add employee" });
+}
 
     res.status(201).json({ message: "Employee added successfully!", data });
   } catch (err) {
