@@ -5,10 +5,15 @@ const employeeRoutes = require("./routes/employeeRoutes");
 
 const app = express();
 
+// Get the frontend URL from environment variable (for production deployment)
+const allowedOrigin = process.env.NODE_ENV === "production"
+  ? "https://employee-management-frontend-i96a-3m753miv2.vercel.app" // your Vercel frontend URL
+  : "http://localhost:3000"; // your local development frontend URL
+
 // Middleware
 app.use(
   cors({
-    origin: "*", // Allow requests from the local frontend
+    origin: allowedOrigin, // Dynamically set the allowed origin
   })
 );
 app.use(express.json()); // Parse JSON requests
