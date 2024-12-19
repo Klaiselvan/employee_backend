@@ -2,12 +2,9 @@ const { createClient } = require('@supabase/supabase-js'); // Import the Supabas
 require('dotenv').config(); // Load environment variables from .env file
 
 // Initialize the Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL, // The URL for your Supabase project
-  process.env.SUPABASE_KEY  // The anon or service role key from Supabase
-);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-// Check if the connection works by making a test query
+// Check if the connection works by making a test   query
 const testConnection = async () => {
   try {
     const { data, error } = await supabase.from('employees').select('*'); // Replace 'employees' with your table name
